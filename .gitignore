@@ -31,5 +31,8 @@ models/
 # Document uploads
 pdfs\
 
+# docker stuff
+.env.docker
+
 # load-db.bat
 # dump-db.bat

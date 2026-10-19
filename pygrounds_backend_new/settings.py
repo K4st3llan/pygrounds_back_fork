@@ -53,7 +53,7 @@ DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY')
 DEEPSEEK_API_URL = config('DEEPSEEK_API_URL')
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
 
 AUTH_USER_MODEL = 'users.User'  # Replace with actual app name
 
