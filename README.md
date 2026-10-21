@@ -103,3 +103,17 @@ This will generate `question_generation/models/minigame_coding_model.pkl`.
 - The model only needs to be trained once per machine.
 - If the model file is missing, the system will automatically fall back to the rule-based engine — the Check Difficulty feature will still work, just without ML.
 - `minigame_train_non_coding.py` does NOT need to be run — non-coding difficulty uses the rule engine directly in this branch.
+
+
+## Run with Docker
+
+1. Copy `.env.example` to `.env.docker` and fill in your values
+2. Build the image:
+```bash
+   docker build -t pygrounds-backend .
+```
+3. Run it:
+```bash
+   docker run --env-file .env.docker -p 8000:8000 pygrounds-backend
+```
+4. Open http://localhost:8000/api/schema/
