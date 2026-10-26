@@ -33,6 +33,9 @@ pdfs\
 
 # docker stuff
 .env.docker
+.env
+.env.*
+!.env.example
 
 # load-db.bat
 # dump-db.bat
