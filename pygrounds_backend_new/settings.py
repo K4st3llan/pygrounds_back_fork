@@ -53,7 +53,7 @@ DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY')
 DEEPSEEK_API_URL = config('DEEPSEEK_API_URL')
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0"]
+ALLOWED_HOSTS = config("ALLOWED_HOST", default="localhost,127.0.0.1,0.0.0.0").split(",")
 
 AUTH_USER_MODEL = 'users.User'  # Replace with actual app name
 
@@ -67,9 +67,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -106,15 +103,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# For development, allow all origins
-CORS_ALLOW_ALL_ORIGINS = True
-
-# Allow credentials for authentication
-CORS_ALLOW_CREDENTIALS = True
-
-# Allow all headers
-CORS_ALLOW_HEADERS = ['*']
+# CORS
+CORS_ALLOW_ALL_ORIGINS = config("CORS_ALLOW_ALL_ORIGINS", default=True, cast=bool)
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in config("CORS_ALLOWED_ORIGINS", default="").split(",")
+    if origin.strip()
+]
+# JWT is sent in the Authorization header, not cookies
 CORS_ALLOW_CREDENTIALS = False
+
+# Django admin over HTTPS
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in config("CSRF_TRUSTED_ORIGINS", default="").split(",")
+    if origin.strip()
+]
 
 # Allow all methods
 CORS_ALLOW_METHODS = [
