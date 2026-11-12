@@ -2,10 +2,6 @@
 
 **Stack:** React · Django · PostgreSQL · Supabase · Docker
 
-### PDF processing → Chunking → Retrieval → LLM generation
-
-500-1,000-page textbook PDFs → cleaned and chunked (works with or without a table of contents) → retrieval → LLM generates graded questions per topic and difficulty → parallel generation with multithreading, live progress, job cancellation, and a status API for long-running jobs. Admin dashboard reviews the output.
-
 This repo is the deployment copy, configured for containerized hosting:
 
 |   Layer  | Platform |                    Notes                |
@@ -16,6 +12,16 @@ This repo is the deployment copy, configured for containerized hosting:
 
 Backend Dockerfile included (`python:3.12-slim` + poppler for PDF processing, gunicorn entry).
 
+## Run with Docker
+
+> **Note:** Deployment setup lives on the `docker-setup` branch — switch to it (`git checkout docker-setup`) before following the steps below.
+
+1. Copy `.env.example` to `.env.docker` and fill in your values
+2. Build the image:
+```bash
+   docker build -t pygrounds-backend .
+   docker run --env-file .env.docker -p 8000:8000 pygrounds-backend
+```
 
 # Pygrounds Backend Team Documentation
 
@@ -141,14 +147,9 @@ Notes:
 - The script **deletes all existing zones, topics, and subtopics** (and their embeddings) before reseeding — it is a full overwrite, not an incremental seed.
 - If the embedding system is unavailable, subtopics are still created without embeddings; they can be generated later from the admin interface.
 
-## Run with Docker
-1. Copy `.env.example` to `.env.docker` and fill in your values
-2. Build the image:
-```bash
-   docker build -t pygrounds-backend .
-```
-3. Run it:
-```bash
-   docker run --env-file .env.docker -p 8000:8000 pygrounds-backend
-```
-4. Open http://localhost:8000/api/schema/
+
+### PDF processing → Chunking → Retrieval → LLM generation
+
+500-1,000-page textbook PDFs → cleaned and chunked (works with or without a table of contents) → retrieval → LLM generates graded questions per topic and difficulty → parallel generation with multithreading, live progress, job cancellation, and a status API for long-running jobs. Admin dashboard reviews the output.
+
+
